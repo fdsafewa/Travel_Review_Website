@@ -1,0 +1,50 @@
+.recommendationArea {
+    width: 100%;
+    padding-top: 40px;
+    background-color: white;
+}
+
+.recommendationAreaContainer {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.recommendationAreaTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: block;
+    text-align: left; 
+}
+
+.recommendationPicList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center; 
+}
+
+.recommendationPicItem {
+    flex: 1;
+    max-width: 25%; 
+    margin-right: 10px;
+    background-color: #ddd; 
+    height: 150px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #333;
+    border-radius: 10px;
+}
+
+.recommendationPicItem:last-child {
+    margin-right: 0;
+}
+
+.recommendationPicItem:hover {
+    background-color: black; 
+}
+
