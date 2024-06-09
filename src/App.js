@@ -4,6 +4,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Home from './pages/Home';
 import Fortest from './pages/Fortest';
+import PlaceDetails from './pages/PlaceDetails';
+import Pic from './pages/Pic';
 
 
 
@@ -15,6 +17,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/test" element={<Fortest />} />
+          <Route path="/PlaceDetails" element={<PlaceDetails />}/>
+          <Route path="/Pic" element={<Pic />}/>
         </Routes>
       </div>
     </Router>

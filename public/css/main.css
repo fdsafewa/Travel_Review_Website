@@ -2351,6 +2351,30 @@ nav .inner-nav.mobile_nav.opened ul {
 /*  */
 /* Site top panel */
 /*  */
+.site-bottom-panel {
+    background: #45505c;
+    height: 62px;
+    line-height: 60px;
+}
+
+.footer-link {
+    margin: 0 10px; /* Adds a 10px gap between each link */
+    font-family: Arial, sans-serif; /* Change the font family */
+    color: #f6f3f2; /* Change the text color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s; /* Smooth transition for color change on hover */
+  }
+  
+  .footer-link:hover {
+    color:  #ffc107; /* Change color on hover */
+  }
+  
+  .site-bottom-panel p {
+    font-family: Arial, sans-serif; /* Change the font family for the paragraph */
+    color: #333; /* Change the text color */
+  }
+  
+
 .site-top-panel {
     background: #45505c;
     height: 62px;

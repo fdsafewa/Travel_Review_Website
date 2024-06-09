@@ -1,186 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; 
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Testimonial from './Testimonial';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Community from './Community';
+
+
 
 const Home = () => (
 
   <div>
-  <header>
-    {/* site top panel */}
-    <div className="site-top-panel">
-      <div className="container p-relative">
-        <div className="row">
-          <div className="col-md-6 col-sm-7">
-            {/* lang select wrapper */}
-            <div className="top-left-wrap font-3">
-              <div className="mail-top">
-                <a href="mailto:support.suntour@example.com">
-                  <i className="flaticon-suntour-email"></i>suntour@example.com
-                </a>
-              </div><span>/</span>
-              <div className="tel-top">
-                <a href="tel:(723)-700-1183">
-                  <i className="flaticon-suntour-phone"></i>(723)-700-1183
-                </a>
-              </div>
-            </div>
-            {/* ! lang select wrapper */}
-          </div>
-          <div className="col-md-6 col-sm-5 text-right">
-            <div className="top-right-wrap">
-              <div className="top-login"><a href="#">My Account</a></div>
-              <div className="curr-wrap dropdown">
-                <div>
-                  <ul>
-                    <li>
-                      <a href="#" className="lang-sel icl-en">Currency<i className="fa fa-angle-down"></i></a>
-                      <ul>
-                        <li><a href="#">USD</a></li>
-                        <li><a href="#">EUR</a></li>
-                        <li><a href="#">GBP</a></li>
-                        <li><a href="#">AUD</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="lang-wrap dropdown">
-                <div>
-                  <ul>
-                    <li>
-                      <a href="#" className="lang-sel icl-en">Language <i className="fa fa-angle-down"></i></a>
-                      <ul>
-                        <li><a href="#">English</a></li>
-                        <li><a href="#">Deutsch</a></li>
-                        <li><a href="#">Espanol</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {/* ! site top panel */}
-    {/* Navigation panel */}
-    <nav className="main-nav js-stick">
-      <div className="full-wrapper relative clearfix container">
-        {/* Logo ( * your text or image into link tag *) */}
-        <div className="nav-logo-wrap local-scroll">
-          <a href="index.html" className="logo">
-            <img src="img/logo.png" data-at2x="img/logo@2x.png" alt="" />
-          </a>
-        </div>
-        {/* Main Menu */}
-        <div className="inner-nav desktop-nav">
-          <ul className="clearlist">
-            {/* Item With Sub */}
-            <li><a href="index.html" className="mn-has-sub active">Home <i className="fa fa-angle-down button_open"></i></a>
-              <ul className="mn-sub">
-                <li className="active"><a href="index.html">Standart Slider</a></li>
-                <li><a href="index-search.html">Main Search</a></li>
-                <li><a href="index-slider.html">Full Slider</a></li>
-                <li><a href="index-video.html">Video Slider</a></li>
-              </ul>
-            </li>
-            {/* End Item With Sub */}
-            <li className="slash">/</li>
-            {/* Item With Sub */}
-            <li><a href="hotels-search.html" className="mn-has-sub">Hotels <i className="fa fa-angle-down button_open"></i></a>
-              {/* Sub */}
-              <ul className="mn-sub">
-                <li><a href="hotels-list.html">Hotels list</a></li>
-                <li><a href="hotels-search.html">Hotels search</a></li>
-                <li><a href="hotels-details.html">Hotels details</a></li>
-              </ul>
-              {/* End Sub */}
-            </li>
-            {/* End Item With Sub */}
-            <li className="slash">/</li>
-            {/* Item With Sub */}
-            <li className="megamenu"><a href="page-about-us.html" className="mn-has-sub">Pages <i className="fa fa-angle-down button_open"></i></a>
-              {/* Sub */}
-              <ul className="mn-sub mn-has-multi">
-                <li className="mn-sub-multi"><a className="mn-group-title">Pages</a>
-                  <ul>
-                    <li><a href="page-about-us.html">About Us</a></li>
-                    <li><a href="page-services.html">Services</a></li>
-                    <li><a href="page-procces.html">Our Procces</a></li>
-                    <li><a href="page-our-team.html">Our Team</a></li>
-                    <li><a href="page-profile.html">Profile</a></li>
-                    <li><a href="page-elements.html">Elements</a></li>
-                  </ul>
-                </li>
-                <li className="mn-sub-multi"><a className="mn-group-title">Portfolio</a>
-                  <ul>
-                    <li><a href="portfolio-3-col.html">Three Columns</a></li>
-                    <li><a href="portfolio-4-col.html">Four Columns</a></li>
-                    <li><a href="portfolio-masonry.html">Portfolio Masonry</a></li>
-                    <li><a href="portfolio-with-sidebar.html">With Sidebar</a></li>
-                    <li><a href="portfolio-gallery.html">Gallery</a></li>
-                    <li><a href="page-portfolio-single.html">Portfolio Single</a></li>
-                  </ul>
-                </li>
-                <li className="mn-sub-multi"><a className="mn-group-title">Blog</a>
-                  <ul>
-                    <li><a href="blog-2-col-sidebar.html">Two Columns + Sidebar</a></li>
-                    <li><a href="blog-3-col.html">Three Columns</a></li>
-                    <li><a href="blog-4-col.html">Four Columns</a></li>
-                    <li><a href="blog-single.html">Blog Single</a></li>
-                    <li><a href="blog-grid.html">Blog Grid</a></li>
-                    <li><a href="blog-list.html">Blog List</a></li>
-                  </ul>
-                </li>
-              </ul>
-              {/* End Sub */}
-            </li>
-            {/* End Item With Sub */}
-            <li className="slash">/</li>
-            {/* Item With Sub */}
-            <li><a href="shop-grid.html" className="mn-has-sub">Shop <i className="fa fa-angle-down button_open"></i></a>
-              {/* Sub */}
-              <ul className="mn-sub">
-                <li><a href="shop-grid.html">Shop Grid</a></li>
-                <li><a href="shop-cart.html">Shop Cart</a></li>
-                <li><a href="shop-checkout.html">Shop Checkout</a></li>
-                <li><a href="shop-single.html">Shop Single Product</a></li>
-              </ul>
-              {/* End Sub */}
-            </li>
-            {/* End Item With Sub */}
-            <li className="slash">/</li>
-            {/* Item */}
-            <li><a href="page-contact.html">Contact</a></li>
-            {/* End Item */}
-            {/* Search */}
-            <li className="search"><a href="#" className="mn-has-sub">Search</a>
-              <ul className="search-sub">
-                <li>
-                  <div className="container">
-                    <div className="mn-wrap">
-                      <form method="post" className="form">
-                        <div className="search-wrap">
-                          <input type="text" placeholder="Where will you go next?" className="form-control search-field" /><i className="flaticon-suntour-search search-icon"></i>
-                        </div>
-                      </form>
-                    </div>
-                    <div className="close-button"><span>Search</span></div>
-                  </div>
-                </li>
-              </ul>
-            </li>
-            {/* End Search */}
-          </ul>
-        </div>
-        {/* End Main Menu */}
-      </div>
-    </nav>
-    {/* End Navigation panel */}
-  </header>
+   <Header />
   <div className="content-body">
     <div className="tp-banner-container">
       <div className="tp-banner-slider">
@@ -298,7 +130,7 @@ const Home = () => (
                 <p className="info-text">Etiam malesuada lectus tempor, ultricies lectus in, convallis massa.</p>
               </div>
               <div className="features-info-bot">
-                <h4 className="title"><span className="font-4">United arab emirates</span> Dubai</h4><a href="hotels-details.html" className="button">Details</a>
+              <h4 className="title"><span className="font-4">United arab emirates</span> Dubai</h4><a href="/PlaceDetails" className="button">Details</a>
               </div>
             </div>
           </div>
@@ -310,7 +142,7 @@ const Home = () => (
                 <p className="info-text">Etiam malesuada lectus tempor, ultricies lectus in, convallis massa.</p>
               </div>
               <div className="features-info-bot">
-                <h4 className="title"><span className="font-4">United kingdom</span> London</h4><a href="hotels-details.html" className="button">Details</a>
+                <h4 className="title"><span className="font-4">United kingdom</span> London</h4><a href="/PlaceDetails" className="button">Details</a>
               </div>
             </div>
           </div>
@@ -322,7 +154,7 @@ const Home = () => (
                 <p className="info-text">Etiam malesuada lectus tempor, ultricies lectus in, convallis massa.</p>
               </div>
               <div className="features-info-bot">
-                <h4 className="title"><span className="font-4">Australia ans oceania</span> Sydney</h4><a href="hotels-details.html" className="button">Details</a>
+                <h4 className="title"><span className="font-4">Australia ans oceania</span> Sydney</h4><a href="/PlaceDetails" className="button">Details</a>
               </div>
             </div>
           </div>
@@ -334,7 +166,7 @@ const Home = () => (
                 <p className="info-text">Etiam malesuada lectus tempor, ultricies lectus in, convallis massa.</p>
               </div>
               <div className="features-info-bot">
-                <h4 className="title"><span className="font-4">Brazil</span> Rio de janeiro</h4><a href="hotels-details.html" className="button">Details</a>
+                <h4 className="title"><span className="font-4">Brazil</span> Rio de janeiro</h4><a href="/PlaceDetails" className="button">Details</a>
               </div>
             </div>
           </div>
@@ -346,7 +178,7 @@ const Home = () => (
                 <p className="info-text">Etiam malesuada lectus tempor, ultricies lectus in, convallis massa.</p>
               </div>
               <div className="features-info-bot">
-                <h4 className="title"><span className="font-4">Maldives</span> Male</h4><a href="hotels-details.html" className="button">Details</a>
+                <h4 className="title"><span className="font-4">Maldives</span> Male</h4><a href="/PlaceDetails" className="button">Details</a>
               </div>
             </div>
           </div>
@@ -358,7 +190,7 @@ const Home = () => (
                 <p className="info-text">Etiam malesuada lectus tempor, ultricies lectus in, convallis massa.</p>
               </div>
               <div className="features-info-bot">
-                <h4 className="title"><span className="font-4">Turkey</span> Istanbul</h4><a href="hotels-details.html" className="button">Details</a>
+                <h4 className="title"><span className="font-4">Turkey</span> Istanbul</h4><a href="/PlaceDetails" className="button">Details</a>
               </div>
             </div>
           </div>
@@ -370,7 +202,7 @@ const Home = () => (
                 <p className="info-text">Etiam malesuada lectus tempor, ultricies lectus in, convallis massa.</p>
               </div>
               <div className="features-info-bot">
-                <h4 className="title"><span className="font-4">Austria</span> Vienna</h4><a href="hotels-details.html" className="button">Details</a>
+                <h4 className="title"><span className="font-4">Austria</span> Vienna</h4><a href="/PlaceDetails" className="button">Details</a>
               </div>
             </div>
           </div>
@@ -382,7 +214,7 @@ const Home = () => (
                 <p className="info-text">Etiam malesuada lectus tempor, ultricies lectus in, convallis massa.</p>
               </div>
               <div className="features-info-bot">
-                <h4 className="title"><span className="font-4">Italy</span> Venice</h4><a href="hotels-details.html" className="button">Details</a>
+                <h4 className="title"><span className="font-4">Italy</span> Venice</h4><a href="/PlaceDetails" className="button">Details</a>
               </div>
             </div>
           </div>
@@ -622,11 +454,11 @@ const Home = () => (
         <div className="row">
           <div className="col-md-8">
             <h6 className="title-section-top font-4">Happy Memories</h6>
-            <h2 className="title-section alt-2"><span>Our</span> Testimonials</h2>
+            <h2 className="title-section alt-2"><span>Our</span> Community</h2>
             <div className="cws_divider mb-25 mt-5"></div>
           </div>
         </div>
-       <Testimonial />
+       <Community />
       </div>
     </section>
     {/* ! testimonials section */}
@@ -870,56 +702,12 @@ const Home = () => (
       </div>
     </section>
     {/* ! call out section */}
-  </div>
-  {/* footer */}
-  <footer style={{backgroundImage: "url('pic/footer/footer-bg.jpg')"}} className="footer footer-fixed">
-    <div className="container">
-      <div className="row pb-100 pb-md-40">
-        {/* widget footer */}
-        <div className="col-md-6 col-sm-12 mb-sm-30">
-          <div className="logo-soc clearfix">
-            <div className="footer-logo"><a href="index.html"><img src="img/logo-white.png" data-at2x="img/logo-white@2x.png" alt="" /></a></div>
-          </div>
-          <p className="color-g2 mt-10">Vestibulum tincidunt venenatis scelerisque. Proin quis enim lacinia, vehicula massa et, mollis urna. Proin nibh mauris, blandit vitae convallis at, tincidunt vel tellus. Praesent posuere nec lectus non.</p>
-          {/* social */}
-          <div className="social-link dark"><a href="#" className="cws-social fa fa-twitter"></a><a href="#" className="cws-social fa fa-facebook"></a><a href="#" className="cws-social fa fa-google-plus"></a><a href="#" className="cws-social fa fa-linkedin"></a></div>
-          {/* ! social */}
-        </div>
-        {/* ! widget footer */}
-        {/* widget footer */}
-        <div className="col-md-3 col-sm-6 mb-sm-30">
-          <div className="widget-footer">
-            <h4>Latest Tweets</h4>
-            <div className="twitter-footer align-left"></div>
-          </div>
-        </div>
-        {/* end widget footer */}
-        {/* widget footer */}
-        <div className="col-md-3 col-sm-6">
-          <div className="widget-footer">
-            <h4>Tag cloud</h4>
-            <div className="widget-tags-wrap"><a href="#" rel="tag" className="tag">Adventure</a><a href="#" rel="tag" className="tag">Romantic</a><a href="#" rel="tag" className="tag">Wildlife</a><a href="#" rel="tag" className="tag">Beach</a><a href="#" rel="tag" className="tag">Honeymoon</a><a href="#" rel="tag" className="tag">Island</a><a href="#" rel="tag" className="tag">Parks</a><a href="#" rel="tag" className="tag">Family</a><a href="#" rel="tag" className="tag">Travel</a></div>
-          </div>
-        </div>
-        {/* end widget footer */}
-      </div>
     </div>
-    {/* copyright */}
-    <div className="copyright">
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-6">
-            <p>© Copyright 2016 <span>Suntour</span> &nbsp;&nbsp;|&nbsp;&nbsp; All Rights Reserved</p>
-          </div>
-          <div className="col-sm-6 text-right"><a href="index.html" className="footer-nav">Home</a><a href="page-about-us.html" className="footer-nav">Pages</a><a href="hotels-search.html" className="footer-nav">Hotels</a><a href="blog-grid.html" className="footer-nav">Blog</a><a href="shop-grid.html" className="footer-nav">Shop</a><a href="page-contact.html" className="footer-nav">Contacts</a></div>
-        </div>
-      </div>
-    </div>
-    {/* end copyright */}
-    {/* scroll top */}
-  </footer>
-  <div id="scroll-top"><i className="fa fa-angle-up"></i></div>
+    {/* footer */}
+   <Footer />
   {/* ! footer */}
+  <div id="scroll-top"><i class="fa fa-angle-up"></i></div>
+ 
   {/* login popup */}
   
   {/* ! login popup */}

@@ -1,5 +1,4 @@
 import React from 'react';
-import backgroundImage from '../img/16023.jpg';
 
 const Fortest = () => {
     return (
