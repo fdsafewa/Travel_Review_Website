@@ -32,7 +32,7 @@ function ReviewForm() {
       <h1>Attraction Review</h1>
       <form onSubmit={handleSubmit} className="review-form">
         <div>
-          <label>Rating (1-5)</label>
+          <label>Rating</label>
           <input type="number" value={rating} onChange={handleRatingChange} min="1" max="5" />
         </div>
         <div>
