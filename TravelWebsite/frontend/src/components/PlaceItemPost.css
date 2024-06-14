@@ -1,0 +1,93 @@
+.place-item-post {
+    margin: 1rem 0;
+  }
+  
+  .place-item-post__content {
+    padding: 0;
+    width: 50%;
+    margin: 0 auto;
+  }
+  
+  .place-item-post__info {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .place-item-post__image {
+    width: 100%;
+    height: 12.5rem;
+    margin-right: 1.5rem;
+  }
+  
+  .place-item-post__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .place-item-post__info h2,
+  .place-item-post__info h3,
+  .place-item-post__info p {
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .place-item-post__actions {
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid #ccc;
+  }
+  
+  .place-item-post__modal-content {
+    padding: 0;
+  }
+  
+  .place-item-post__modal-actions {
+    text-align: right;
+  }
+  
+  .place-item-post__actions button,
+  .place-item-post__actions a {
+    margin: 0.5rem;
+  }
+  
+  .place-item-post__comments {
+    padding: 1rem;
+    background-color: white;
+    border-top: 1px solid #ccc;
+    margin-top: 1rem;
+  }
+  
+  .place-item-post__comments h3 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .place-item-post__comments ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .place-item-post__comments li {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background-color: white;
+    border: 1px solid #ddd;
+  }
+  
+  .place-item-post__comments li:not(:last-child)::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #ddd;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: -1px;
+  }
+  
+  @media (min-width: 768px) {
+    .place-item-post__image {
+      height: 20rem;
+    }
+  }
+  

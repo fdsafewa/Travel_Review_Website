@@ -14,7 +14,11 @@ const Header = () => {
         </div>
         <ul className="menuItems">
           <li className="menuItem">Review</li>
-          <li className="menuItem">Community</li>
+          <li className="menuItem">
+            <Link to="/places" className="menuItem">
+              Community
+            </Link>
+          </li>
           <li className="menuItem">
             <Link to="/login" className="menuItem">
               Login
