@@ -1,7 +1,7 @@
 import React from "react";
-import './RecomendationArea.css';
+import './RecommendationArea.css';
 
-const RecomendationArea = () => {
+const RecommendationArea = () => {
     return (
         <div className="recommendationArea">
             <div className="recommendationAreaContainer">
@@ -18,4 +18,4 @@ const RecomendationArea = () => {
         </div>
     )
 }
-export default RecomendationArea;
+export default RecommendationArea;

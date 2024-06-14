@@ -1,17 +1,16 @@
-.popularArea {
+.recommendationArea {
     width: 100%;
     padding-top: 40px;
     background-color: white;
 }
 
-.popularAreaContainer {
+.recommendationAreaContainer {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-.popularAreaTitle {
-    width: 100%;
+.recommendationAreaTitle {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -19,17 +18,15 @@
     text-align: left; 
 }
 
-.popularPicList {
+.recommendationPicList {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center; 
-    width: 100%;
-
 }
 
-.popularPicItem {
+.recommendationPicItem {
     flex: 1;
     max-width: 25%; 
     margin-right: 10px;
@@ -43,11 +40,10 @@
     border-radius: 10px;
 }
 
-.popularPicItem:last-child {
+.recommendationPicItem:last-child {
     margin-right: 0;
 }
 
-.popularPicItem:hover {
+.recommendationPicItem:hover {
     background-color: black; 
 }
-

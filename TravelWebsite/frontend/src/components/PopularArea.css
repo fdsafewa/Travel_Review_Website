@@ -1,16 +1,17 @@
-.recommendationArea {
+.popularArea {
     width: 100%;
     padding-top: 40px;
     background-color: white;
 }
 
-.recommendationAreaContainer {
+.popularAreaContainer {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-.recommendationAreaTitle {
+.popularAreaTitle {
+    width: 100%;
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -18,15 +19,17 @@
     text-align: left; 
 }
 
-.recommendationPicList {
+.popularPicList {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center; 
+    width: 100%;
+
 }
 
-.recommendationPicItem {
+.popularPicItem {
     flex: 1;
     max-width: 25%; 
     margin-right: 10px;
@@ -40,11 +43,10 @@
     border-radius: 10px;
 }
 
-.recommendationPicItem:last-child {
+.popularPicItem:last-child {
     margin-right: 0;
 }
 
-.recommendationPicItem:hover {
+.popularPicItem:hover {
     background-color: black; 
 }
-
