@@ -14,14 +14,14 @@ const PlaceDetails = () => {
   useEffect(() => {
     const fetchPlaceDetails = async () => {
       try {
-        console.log(`Fetching details for place ID: ${id}`);
+        //console.log(`Fetching details for place ID: ${id}`);
         const response = await fetch(`/PlaceDetails/${id}`);
-        console.log(`Response status: ${response.status}`);
+        //console.log(`Response status: ${response.status}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log('Fetched place details:', data);
+        //console.log('Fetched place details:', data);
         setPlaceDetails(data);
       } catch (error) {
         console.error('Error fetching place details:', error);

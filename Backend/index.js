@@ -20,14 +20,6 @@ mongoose.connect(mongoURI, {
 .then(() => console.log('MongoDB connected'))
 .catch((err) => console.error('MongoDB connection error:', err));
 
-// Define the Test schema and model
-const TestSchema = new mongoose.Schema({
-  email: String,
-  name: String
-});
-
-// Specify the collection name explicitly
-const Test = mongoose.model('Test', TestSchema, 'test');
 
 app.use(cors());
 app.use(express.json());
@@ -62,10 +54,16 @@ async function fetchAndStorePlaceDetails() {
   let places = [];
   const totalResults = 20;  // Maximum number of places to fetch
 
+  const existingPlacesCount = await PlaceDetails.countDocuments();
+  if (existingPlacesCount > 5) {
+    console.log('More than 5 places already exist in the database. Skipping fetch.');
+    return;
+  }
+
   try {
     while (places.length < totalResults) {
       const response = await axios.get(url);
-      console.log('Fetched places:', response.data.results); // Log fetched places
+      //console.log('Fetched places:', response.data.results); // Log fetched places
       places = places.concat(response.data.results);
 
       if (!response.data.next_page_token || places.length >= totalResults) {
@@ -84,7 +82,7 @@ async function fetchAndStorePlaceDetails() {
         console.error('place_id is undefined for place:', place);
         return null; // Skip places without a valid place_id
       }
-      console.log('Processing place with place_id:', place.place_id);
+      //console.log('Processing place with place_id:', place.place_id);
 
       const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=${apiKey}`;
       const placeDetailsResponse = await axios.get(placeDetailsUrl);
@@ -146,6 +144,15 @@ app.get('/vancouver-places', async (req, res) => {
   } catch (error) {
     console.error('Error retrieving place details:', error);
     res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/placelist', async (req, res) => {
+  try {
+    const places = await PlaceDetails.find();
+    res.json(places);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
