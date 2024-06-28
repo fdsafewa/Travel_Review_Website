@@ -7,6 +7,7 @@ import Fortest from './pages/Fortest';
 import PlaceDetails from './pages/PlaceDetails';
 import Pic from './pages/Pic';
 import Review from './pages/Review';
+import Recommendation from './pages/Recommendation';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import './App.css';
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/resetAccount" element={<ResetAccount/>}/>
           <Route path="/Review" element={<Review />} />
+          <Route path="/Recommendation" element={<Recommendation />} />
         </Routes>
       </div>
     </Router>

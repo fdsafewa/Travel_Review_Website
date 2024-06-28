@@ -1,0 +1,45 @@
+.content-body {
+  padding: 20px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.col-md-4, .col-sm-6 {
+  flex: 0 0 30%;
+  max-width: 30%;
+  margin-bottom: 20px;
+}
+
+.portfolio-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  padding: 10px;
+}
+
+.pic img.fixed-size {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.portfolio-title {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.links .fancy {
+  text-decoration: none;
+  color: #007bff;
+}
