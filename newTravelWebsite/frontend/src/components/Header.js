@@ -27,7 +27,7 @@ const Header = () => {
             </div>
             <div className="col-md-6 col-sm-5 text-right">
               <div className="top-right-wrap">
-                <div className="top-login"><a href="#">My Account</a></div>
+                <div className="top-login"><a href="/login">My Account</a></div>
                 <div className="curr-wrap dropdown">
                   <div>
                     <ul>
