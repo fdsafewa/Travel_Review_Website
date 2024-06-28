@@ -19,6 +19,15 @@ const AddPlace = () => {
     console.log({ title, description, address, image });
   };
 
+  const handleExit = () => {
+    setTitle("");
+    setDescription("");
+    setAddress("");
+    setImage(null);
+    setImagePreview(null);
+    console.log("Exit clicked, form reset.");
+  };
+
   return (
     <div className="add-place">
       <h2>Add a New Place</h2>
@@ -26,7 +35,7 @@ const AddPlace = () => {
         <div className="form-group">
           <div className="image-preview">
             {imagePreview ? (
-              <img src={imagePreview} alt="Image Preview" />
+              <img src={imagePreview} alt="Preview of uploaded place" />
             ) : (
               <div className="image-placeholder">Image Preview</div>
             )}
@@ -64,20 +73,6 @@ const AddPlace = () => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="description">Description:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
                 <label htmlFor="address">Address:</label>
               </td>
               <td>
@@ -90,11 +85,30 @@ const AddPlace = () => {
                 />
               </td>
             </tr>
+            <tr>
+              <td>
+                <label htmlFor="description">Description:</label>
+              </td>
+              <td>
+                <textarea
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                  rows="5"
+                ></textarea>
+              </td>
+            </tr>
           </tbody>
         </table>
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
+        <div className="button-group">
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+          <button type="button" className="exit-button" onClick={handleExit}>
+            Exit
+          </button>
+        </div>
       </form>
     </div>
   );
