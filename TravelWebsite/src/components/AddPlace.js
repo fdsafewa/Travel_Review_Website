@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./AddPlace.css";
 
+
 const AddPlace = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
