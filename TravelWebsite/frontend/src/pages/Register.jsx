@@ -8,11 +8,11 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const { register } = useRegister();
+    const { handleRegister } = useRegister();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        register(name, email, password);
+        handleRegister(name, email, password);
     }
 
     return (

@@ -9,11 +9,11 @@ const Login = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const navigate = useNavigate();
-    const {login} = useLogin()
+    const {handleLogin} = useLogin()
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        login(email,password);
+        handleLogin(email,password);
         
     }
 

@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Header.css";
 import log from "../image/logo2.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Header = () => {
+  const { auth, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    window.location.reload();
+  };
+
   return (
     <header className="header">
       <div className="headerContainer">
@@ -20,9 +30,11 @@ const Header = () => {
             </Link>
           </li>
           <li className="menuItem">
-            <Link to="/login" className="menuItem">
-              Login
-            </Link>
+            {auth.isAuthenticated ? (
+              <Link onClick={handleLogout} className="menuItem">Logout</Link>
+            ) : (
+              <Link to="/login" className="menuItem">Login</Link>
+            )}
           </li>
         </ul>
       </div>
