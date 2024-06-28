@@ -7,6 +7,10 @@ import Fortest from './pages/Fortest';
 import PlaceDetails from './pages/PlaceDetails';
 import Pic from './pages/Pic';
 import Review from './pages/Review';
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import './App.css';
+import ResetAccount from "./pages/resetAccount";
 
 function App() {
   return (
@@ -17,6 +21,9 @@ function App() {
           <Route path="/test" element={<Fortest />} />
           <Route path="/PlaceDetails" element={<PlaceDetails />} />
           <Route path="/Pic" element={<Pic />} />
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/resetAccount" element={<ResetAccount/>}/>
           <Route path="/Review" element={<Review />} />
         </Routes>
       </div>
