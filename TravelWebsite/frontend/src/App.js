@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Header from "./components/Header";
 import Places from "./pages/Places";
 import PlacePost from "./pages/PlacePost";
+import AddPlace from "./pages/AddPlace";
 import AuthProvider from "./context/AuthContext";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/places" element={<Places />} />
             <Route path="/places/:placeId" element={<PlacePost />} />
+            <Route path="/addplace" element={<AddPlace />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
