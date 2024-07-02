@@ -1,7 +1,8 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import {useLocation, useNavigate} from 'react-router-dom';
+import '../styles/login.css';
 
 const ResetAccount = () => {
   const [email, setEmail] = useState();

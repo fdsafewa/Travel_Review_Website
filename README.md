@@ -1,7 +1,21 @@
-In order the use the github in a easy way, delete the node_modules folders(to huge)
+# Getting Started with Create React App
 
-before run the project
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-first step: run npm install on the backend folder and frontend folder
+## Available Scripts
 
-second step: run npm start
+In the project directory, you can run:
+
+### `npm install`
+
+In order to install the node modules, the first step to install the node modules. Before run the project, run npm install.
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
+

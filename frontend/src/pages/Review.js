@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Review.css';
+import '../styles/Review.css';
 
 function ReviewForm() {
   const [rating, setRating] = useState(0);
