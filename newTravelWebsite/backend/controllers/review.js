@@ -1,51 +1,44 @@
-const { isValidObjectId } = require("mongoose");
+const mongoose = require("mongoose");
 const Attraction = require("../models/attraction");
 const Review = require("../models/review");
 
 exports.addReview = async (req, res) => {
   const { gmap_id } = req.params;
-  const { text, rating } = req.body;
-  const userId = req.user._id;
+  const { user_id, rating, text } = req.body;
 
-  if (!isValidObjectId(gmap_id)) return res.status(400).json({ error: "Invalid Attraction ID!" });
+  if (!gmap_id) return res.status(400).json({ error: "Invalid Attraction!" });
 
-  const attraction = await Attraction.findOne({ gmap_id, status: "public" });
+  const attraction = await Attraction.findOne({ gmap_id });
   if (!attraction) return res.status(404).json({ error: "Attraction not found!" });
 
   const isAlreadyReviewed = await Review.findOne({
-    user_id: userId,
-    gmap_id: attraction._id,
+    user_id,
+    gmap_id,
   });
   if (isAlreadyReviewed)
     return res.status(400).json({ error: "Invalid request, review is already there!" });
 
   const newReview = new Review({
-    user_id: userId,
-    gmap_id: attraction._id,
-    text,
+    user_id,
+    gmap_id,
     rating,
+    text,
   });
 
-  attraction.reviews.push(newReview._id);
-  await attraction.save();
-  
   await newReview.save();
 
   res.json({ message: "Your review has been added." });
 };
 
 exports.updateReview = async (req, res) => {
-  const { reviewId } = req.params;
-  const { text, rating } = req.body;
-  const userId = req.user._id;
+  const { gmap_id, user_id } = req.params;
+  const { rating, text } = req.body;
 
-  if (!isValidObjectId(reviewId)) return res.status(400).json({ error: "Invalid Review ID!" });
+  const review = await Review.findOne({ user_id, gmap_id });
+  if (!review) return res.status(404).json({ error: "Review not found" });
 
-  const review = await Review.findOne({ user_id: userId, _id: reviewId });
-  if (!review) return res.status(404).json({ error: "Review not found!" });
-
-  review.text = text;
   review.rating = rating;
+  review.text = text;
 
   await review.save();
 
@@ -53,20 +46,10 @@ exports.updateReview = async (req, res) => {
 };
 
 exports.removeReview = async (req, res) => {
-  const { reviewId } = req.params;
-  const userId = req.user._id;
+  const { gmap_id, user_id } = req.params;
 
-  if (!isValidObjectId(reviewId)) return res.status(400).json({ error: "Invalid Review ID!" });
-
-  const review = await Review.findOne({ user_id: userId, _id: reviewId });
-  if (!review) return res.status(404).json({ error: "Invalid request, review not found!" });
-
-  const attraction = await Attraction.findById(review.gmap_id).select("reviews");
-  attraction.reviews = attraction.reviews.filter((rId) => rId.toString() !== reviewId);
-
-  await Review.findByIdAndDelete(reviewId);
-
-  await attraction.save();
+  const review = await Review.findOneAndDelete({ user_id, gmap_id });
+  if (!review) return res.status(404).json({ error: "Review not found" });
 
   res.json({ message: "Review removed successfully." });
 };
@@ -74,35 +57,9 @@ exports.removeReview = async (req, res) => {
 exports.getReviewsByAttraction = async (req, res) => {
   const { gmap_id } = req.params;
 
-  if (!isValidObjectId(gmap_id)) return res.status(400).json({ error: "Invalid Attraction ID!" });
+  if (!gmap_id) return res.status(400).json({ error: "Invalid attraction ID!" });
 
-  const attraction = await Attraction.findById(gmap_id)
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "user_id",
-        select: "name",
-      },
-    })
-    .select("reviews");
-
-  if (!attraction) return res.status(404).json({ error: "Attraction not found!" });
-
-  const reviews = attraction.reviews.map((r) => {
-    const { user_id, text, rating, _id: reviewID, time } = r;
-    const { name, _id: userId } = user_id;
-
-    return {
-      id: reviewID,
-      user: {
-        id: userId,
-        name,
-      },
-      text,
-      rating,
-      time,
-    };
-  });
-
+  const reviews = await Review.find({ gmap_id });
   res.json({ reviews });
 };
+
