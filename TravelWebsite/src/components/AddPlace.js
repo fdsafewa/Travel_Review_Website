@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { Button } from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
+import DeleteIcon from '@mui/icons-material/Delete';
 import "./AddPlace.css";
-
 
 const AddPlace = () => {
   const [title, setTitle] = useState("");
@@ -103,12 +105,25 @@ const AddPlace = () => {
           </tbody>
         </table>
         <div className="button-group">
-          <button type="submit" className="submit-button">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className="submit-button"
+            endIcon={<SendIcon />}
+          >
             Submit
-          </button>
-          <button type="button" className="exit-button" onClick={handleExit}>
-            Exit
-          </button>
+          </Button>
+          <Button
+            type="button"
+            variant="contained"
+            color="secondary"
+            className="exit-button"
+            startIcon={<DeleteIcon />}
+            onClick={handleExit}
+          >
+            Discard
+          </Button>
         </div>
       </form>
     </div>
