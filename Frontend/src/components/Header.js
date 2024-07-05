@@ -1,7 +1,23 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React,{ useState, useEffect} from 'react';
+import { Link, useNavigate,NavLink  } from 'react-router-dom'; // if you are using react-router for navigation
 
 const Header = () => {
+  const [username, setUsername] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.name) {
+      setUsername(user.name); 
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUsername('');
+    navigate('/');
+    window.location.reload();
+  };
   return (
     <header>
       {/* site top panel */}
@@ -27,7 +43,28 @@ const Header = () => {
             </div>
             <div className="col-md-6 col-sm-5 text-right">
               <div className="top-right-wrap">
-                <div className="top-login"><a href="#">My Account</a></div>
+              <div className="curr-wrap dropdown">
+                  <div>
+                    <ul>
+                      <li>
+                        <a href="#" className="lang-sel icl-en"> 
+                  {username ? (
+                    <>
+                      <span>Hi, {username}</span>
+                    
+                    </>
+                  ) : (
+                    <Link to="/login">My Account</Link>
+                  )}
+               <i className="fa fa-angle-down"></i></a>
+                        <ul>
+                          <li><a href="#">Profile</a></li>
+                          <li> <a href="#" onClick={handleLogout} className="lang-sel icl-en">Logout</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
                 <div className="curr-wrap dropdown">
                   <div>
                     <ul>

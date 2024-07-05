@@ -1,0 +1,35 @@
+.review-form {
+  margin: auto;
+  padding: 20px;
+  width: 50%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.review-form div {
+  margin-bottom: 12px;
+}
+.review-form label {
+  font-weight: bold;
+}
+.review-form input[type="number"],
+.review-form textarea,
+.review-form input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.review-form button {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.review-form button:hover {
+  background-color: #0056b3;
+}

@@ -7,6 +7,11 @@ import Fortest from './pages/Fortest';
 import PlaceDetails from './pages/PlaceDetails';
 import PlaceList from './pages/PlaceList';
 import ScrollToTop from './components/ScrollToTop';
+import Review from './pages/Review';
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import './App.css';
+import ResetAccount from "./pages/resetAccount";
 
 
 
@@ -20,6 +25,10 @@ function App() {
           <Route path="/PlaceDetails/:id" element={<PlaceDetails />}/>
           <Route path="/PlaceDetails" element={<PlaceDetails />}/>
           <Route path="/placelist" element={<PlaceList />}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/resetAccount" element={<ResetAccount/>}/>
+          <Route path="/Review" element={<Review />} />
         </Routes>
     </Router>
   );

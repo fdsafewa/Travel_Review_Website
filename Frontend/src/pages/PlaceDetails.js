@@ -1,16 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Footer from '../components/Footer';
 import ImageSlide from "./ImageSlider";
 import WriteReview from './WriteReview';
+import '../styles/placeDetails.css';
 
 
 const PlaceDetails = () => {
   const { id } = useParams(); // Get the place ID from the URL parameters
   const [placeDetails, setPlaceDetails] = useState(null);
   const defaultImage = '/img/unnamed.jpg';
-
+  const mapToTags = (tags, description) => {
+    const tagMapping = {
+      nature: ['park', 'natural_feature', 'lagoon', 'wildlife', 'beach'],
+      cultural: ['museum', 'art_gallery', 'cultural_center', 'historic', 'monument', 'landmark', 'totem'],
+      recreational: ['recreation', 'path', 'hiking', 'scenic', 'trails'],
+      family: ['family_friendly', 'kids', 'aquarium', 'interactive', 'science', 'aviary'],
+      landmark: ['tower', 'clock', 'iconic', 'rock', 'landmark'],
+      commercial: ['shopping_mall', 'store', 'market', 'restaurant', 'cafe', 'bar', 'night_club', 'complex'],
+      popular: ['popular', 'tourist_attraction', 'point_of_interest', 'establishment'],
+    };
+  
+    const descriptionMapping = {
+      nature: ['lagoon', 'fountain', 'wildlife', 'park', 'flowers', 'garden', 'greenery', 'birds', 'plants'],
+      cultural: ['historic', 'clock', 'antique', 'monument', 'conservation', 'museum', 'art', 'exhibits', 'galleries'],
+      recreational: ['scenic', 'walking', 'jogging', 'cycling', 'skating', 'recreation'],
+      family: ['kid-friendly', 'family', 'interactive', 'educational', 'science', 'aviary'],
+      landmark: ['landmark', 'iconic', 'tower', 'rock', 'views', 'sightseeing'],
+      commercial: ['complex', 'convention', 'shopping', 'dining', 'hotel', 'ferry', 'restaurant', 'market'],
+      popular: ['popular', 'tourist', 'attraction', 'sightseeing'],
+    };
+  
+    const finalTags = new Set();
+  
+    tags.forEach(tag => {
+      if (tag.includes('_')) {
+        for (const [key, values] of Object.entries(tagMapping)) {
+          if (values.includes(tag)) {
+            finalTags.add(key);
+            break;
+          }
+        }
+      } else {
+        finalTags.add(tag);
+      }
+    });
+  
+    // Map description
+    for (const [key, values] of Object.entries(descriptionMapping)) {
+      if (values.some(word => description.toLowerCase().includes(word))) {
+        finalTags.add(key);
+      }
+    }
+    
+    return Array.from(finalTags);
+  };
+  
+  
+  
   useEffect(() => {
     const fetchPlaceDetails = async () => {
       try {
@@ -30,10 +79,26 @@ const PlaceDetails = () => {
     fetchPlaceDetails();
   }, [id]);
 
+  useEffect(() => {
+    const storeFinalTags = async () => {
+      if (placeDetails) {
+        const finalTags = mapToTags(placeDetails.tags, placeDetails.description);
+
+        try {
+          await axios.put(`/PlaceDetails/${id}`, { finalTags });
+          console.log('Final tags stored to database:', finalTags);
+        } catch (error) {
+          console.error('Error storing final tags:', error);
+        }
+      }
+    };
+    storeFinalTags();
+  }, [placeDetails, id]);
+
   if (!placeDetails) {
     return <div>Loading...</div>;
   }
-
+  const finalTags = mapToTags(placeDetails.tags, placeDetails.description);
   const slides = placeDetails.photos.map((photo) => ({url:photo}));
 
   return (
@@ -216,9 +281,7 @@ const PlaceDetails = () => {
                 <p className="font-4">{placeDetails.address}</p><a href="#location" className="scrollto">Show map</a>
               </div>
             </div>
-            <div className="breadright"><a href="#" className="cws-button small alt">Get price</a>
-              <p>Best Price Guarantee</p>
-            </div>
+           
           </div>
         </section>
         {/* Breadcrumbs end */}
@@ -249,6 +312,7 @@ const PlaceDetails = () => {
               </div>
             </div>
           </div>
+         
           {/* Section location */}
           <div id="location" className="container mb-50">
             <div className="row">
@@ -264,6 +328,43 @@ const PlaceDetails = () => {
                   <li><a href="#">{placeDetails.location.phone}<i className="flaticon-suntour-phone"></i></a></li>
                 </ul>
               </div>
+            </div>
+          </div>
+          <div id="amenities" className="container mb-50">
+            <div className="row">
+              <div className="col-md-12">
+                <h4 className="trans-uppercase mb-10">Opening Hours</h4>
+                <div className="cws_divider mb-10"></div>
+              </div>
+            </div>
+            <div className="row mt-0 masonry">
+          <div className="col-md-3 col-sm-6">
+            
+            {placeDetails.openingHours.weekday_text.length > 0 ? (
+              <ul className="style-1">
+                {placeDetails.openingHours.weekday_text.map((day, index) => (
+                  <li key={index}>{day}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No opening hours available</p>
+            )}
+          </div>
+        </div>
+          </div>
+          <div id="amenities" className="container mb-50">
+            <div className="row">
+              <div className="col-md-12">
+                <h4 className="trans-uppercase mb-10">Types</h4>
+                <div className="cws_divider mb-10"></div>
+              </div>
+            </div>
+            <div className="row mt-0 masonry">
+            <div className="tags-container">
+            {finalTags.map((tag, index) => (
+              <span className="tag" key={index}>{tag}</span>
+            ))}
+          </div>
             </div>
           </div>
           {/* Section amenities */}
