@@ -1,0 +1,71 @@
+/* Profile.css */
+
+.profile-page-container {
+
+  background: #f5f5f5;
+  margin-top: 20px;
+}
+
+.profile-page-container .container,
+.profile-page-container body {
+  text-align: left;
+}
+
+.profile-page-container .ui-w-80 {
+  width: 80px !important;
+  height: auto;
+}
+
+.profile-page-container .btn-default {
+  border-color: rgba(24, 28, 33, 0.1);
+  background: rgba(0, 0, 0, 0);
+  color: #4e5155;
+}
+
+.profile-page-container label.btn {
+  margin-bottom: 0;
+}
+
+.profile-page-container .btn-outline-primary {
+  border-color: #26b4ff;
+  background: transparent;
+  color: #26b4ff;
+}
+
+.profile-page-container .btn {
+  cursor: pointer;
+}
+
+.profile-page-container .text-light {
+  color: #babbbc !important;
+}
+
+.profile-page-container .btn-facebook {
+  border-color: rgba(0, 0, 0, 0);
+  background: #3b5998;
+  color: #fff;
+}
+
+.profile-page-container .btn-instagram {
+  border-color: rgba(0, 0, 0, 0);
+  background: #000;
+  color: #fff;
+}
+
+.profile-page-container .card {
+  background-clip: padding-box;
+  box-shadow: 0 1px 4px rgba(24, 28, 33, 0.012);
+}
+
+.profile-page-container .row-bordered {
+  overflow: hidden;
+}
+
+.profile-page-container .account-settings-fileinput {
+  position: absolute;
+  visibility: hidden;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
