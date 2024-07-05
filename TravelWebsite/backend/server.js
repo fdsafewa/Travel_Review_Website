@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors');
+const path = require('path');
 const mongoose = require('mongoose')
 const userRoutes = require('./routes/users')
 const postRoutes = require('./routes/posts')
@@ -11,6 +12,8 @@ app.use(cors());
 
 app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
+
+app.use('/', express.static(path.join(__dirname, 'upload_picture')));
 
 
 

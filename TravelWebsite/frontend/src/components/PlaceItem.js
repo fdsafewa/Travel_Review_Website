@@ -6,12 +6,15 @@ import Card from './Card';
 import './PlaceItem.css';
 
 const PlaceItem = props => {
+  const imageurl = `http://localhost:3001/${props.image}`
+  
+
   return (
     <li className="place-item">
       <Card className="place-item__content">
         <Link to={`/places/${props.id}`}>
           <div className="place-item__image">
-            <Avatar image={props.image} alt={props.name} />
+            <Avatar image={imageurl} alt={props.name} />
           </div>
           <div className="place-item__info">
             <h2>{props.title}</h2>

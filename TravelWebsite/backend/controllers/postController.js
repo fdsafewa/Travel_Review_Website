@@ -9,7 +9,7 @@ const createPost = async (req, res) => {
 
       
         const { title, description, address, userId } = req.body;
-        const image = req.file.path; 
+        const image = req.file.filename; 
 
        
         const post = new Post({
