@@ -19,6 +19,7 @@ const Login = () => {
             if(result.data.message === "Success"){
               localStorage.setItem("token", result.data.token);
               localStorage.setItem("user", JSON.stringify(result.data.data));
+              localStorage.setItem("role", result.data.data.role);
                 navigate('/');
                 alert('Login successful!')
                 window.location.reload();

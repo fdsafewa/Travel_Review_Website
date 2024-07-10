@@ -87,7 +87,7 @@ const Home = () => {
                 </div>
                 <div className="features-info-bot">
                   <h4 className="title"><span className="font-4">{place.address}</span> {place.placeName}</h4>
-                  <Link to={`/PlaceDetails/${place._id}`} className="button">Details</Link>
+                  <a href={`/PlaceDetails/${place._id}`} className="button">Details</a>
                 </div>
               </div>
             </div>
@@ -124,7 +124,7 @@ const Home = () => {
                 </div>
                 <div className="features-info-bot">
                   <h4 className="title"><span className="font-4">{place.address}</span> {place.placeName}</h4>
-                  <Link to={`/PlaceDetails/${place._id}`} className="button">Details</Link>
+                  <a href={`/PlaceDetails/${place._id}`} className="button">Details</a>
                 </div>
               </div>
             </div>
@@ -161,7 +161,7 @@ const Home = () => {
                 </div>
                 <div className="features-info-bot">
                   <h4 className="title"><span className="font-4">{place.address}</span> {place.placeName}</h4>
-                  <Link to={`/PlaceDetails/${place._id}`} className="button">Details</Link>
+                  <a href={`/PlaceDetails/${place._id}`} className="button">Details</a>
                 </div>
               </div>
             </div>

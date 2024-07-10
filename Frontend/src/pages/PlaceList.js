@@ -7,7 +7,7 @@ const PlaceList = () => {
   const [places, setPlaces] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [placesPerPage] = useState(10);
-
+  
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
@@ -26,9 +26,6 @@ const PlaceList = () => {
     fetchPlaces();
   }, []);
 
-  if (places.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   // Get current places
   const indexOfLastPlace = currentPage * placesPerPage;
@@ -67,8 +64,9 @@ const PlaceList = () => {
                 {currentPlaces.map((place) => (
                   <div key={place._id} className="col-md-6">
                     <div className="recom-item border">
+                   
                       <div className="recom-media">
-                        <Link to={`/PlaceDetails/${place._id}`}>
+                        <a href={`/PlaceDetails/${place._id}`}>
                           <div className="pic">
                           <img 
                               src={place.photos && place.photos.length > 0 ? place.photos[0] : 'pic/recomended/1.jpg'} 
@@ -76,18 +74,18 @@ const PlaceList = () => {
                               style={{ width: '770px', height: '240px', objectFit: 'cover' }}
                             />
                           </div>
-                        </Link>
+                        </a>
                         <div className="location">
                           <i className="flaticon-suntour-map"></i> {place.address}
                         </div>
                       </div>
                       <div className="recom-item-body">
-                        <Link to={`/PlaceDetails/${place._id}`}>
+                        <a href={`/PlaceDetails/${place._id}`}>
                           <h6 className="blog-title">{place.placeName}</h6>
-                        </Link>
+                        </a>
                         <div className="stars stars-4">{place.rating}</div>
                         <p className="mb-30">{place.description}</p>
-                        <Link to={`/PlaceDetails/${place._id}`} className="cws-button small alt">Read More</Link>
+                        <a href={`/PlaceDetails/${place._id}`} className="cws-button small alt">Read More</a>
                         <div className="action font-2">New</div>
                       </div>
                     </div>

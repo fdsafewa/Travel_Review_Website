@@ -6,8 +6,41 @@ const axios = require('axios');
 const PlaceDetails = require('./models/PlaceDetails'); // Ensure this path is correct
 const placeDetailsRoutes = require('./routes/placeDetails');
 const FormDataModel = require ('./models/FormData');
+const { v4: uuidv4 } = require('uuid'); 
+const multer = require('multer');
+const bucket = require('./googleCloudStorage'); 
+const upload = multer({ storage: multer.memoryStorage() });
 
 const app = express();
+async function removeDuplicatePlaceNames() {
+  try {
+    const duplicates = await PlaceDetails.aggregate([
+      {
+        $group: {
+          _id: "$placeName",
+          count: { $sum: 1 },
+          ids: { $push: "$_id" }
+        }
+      },
+      {
+        $match: {
+          count: { $gt: 1 }
+        }
+      }
+    ]);
+
+    for (const duplicate of duplicates) {
+      const idsToDelete = duplicate.ids.slice(1); // Keep the first one, delete the rest
+      await PlaceDetails.deleteMany({ _id: { $in: idsToDelete } });
+      console.log(`Deleted ${idsToDelete.length} duplicates for placeName: ${duplicate._id}`);
+    }
+
+    console.log('Duplicate removal complete.');
+  } catch (error) {
+    console.error('Error removing duplicates:', error);
+  }
+}
+
 
 // MongoDB connection string with the database name specified
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://vicky:ZWI5s1lm6fcox8UH@cluster0.moyyczg.mongodb.net/TravelReview?retryWrites=true&w=majority';
@@ -57,13 +90,11 @@ const mapToTags = (tags, description) => {
   return Array.from(finalTags);
 };
 
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000, // Increase the timeout to 30 seconds
-  socketTimeoutMS: 45000, // Increase socket timeout
+mongoose.connect(mongoURI)
+.then(() => {
+  console.log('MongoDB connected');
+  removeDuplicatePlaceNames();
 })
-.then(() => console.log('MongoDB connected'))
 .catch((err) => console.error('MongoDB connection error:', err));
 
 
@@ -125,10 +156,23 @@ async function fetchAndStorePlaceDetails() {
         console.error('place_id is undefined for place:', place);
         return null; // Skip places without a valid place_id
       }
-
+    
+    
+      const existingPlace = await PlaceDetails.findOne({ placeName: place.name });
+      if (existingPlace) {
+        console.log(`Place with name ${place.name} already exists. Skipping.`);
+        return null; // Skip if place already exists
+      }
+ 
+      
       const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=${apiKey}`;
       const placeDetailsResponse = await axios.get(placeDetailsUrl);
       const details = placeDetailsResponse.data.result;
+
+      if (!details.place_id) {
+        console.error('Details do not contain a place_id:', details);
+        return null;
+      }
 
       const editorialSummary = details.editorial_summary ? details.editorial_summary.overview : '';
 
@@ -141,10 +185,9 @@ async function fetchAndStorePlaceDetails() {
 
       // Map to final tags
       const finalTags = mapToTags(tags, editorialSummary);
-      console.log('Tags:', finalTags);
 
       return {
-        placeId: place.place_id,
+        placeId: details.place_id,
         placeName: details.name,
         address: details.formatted_address,
         reviewsCount: details.user_ratings_total,
@@ -177,7 +220,7 @@ async function fetchAndStorePlaceDetails() {
     await PlaceDetails.insertMany(placeDetailsArray);
     console.log('Place details have been successfully fetched and stored.');
   } catch (error) {
-    console.error('Error fetching place details:', error);
+    console.error('Error fetching popular place details:', error);
   }
 }
 
@@ -217,9 +260,21 @@ async function fetchAndStorePlaceDetails_family() {
         return null; // Skip places without a valid place_id
       }
 
+   
+      const existingPlace = await PlaceDetails.findOne({ placeName: place.name });
+      if (existingPlace) {
+        console.log(`Place with name ${place.name} already exists. Skipping.`);
+        return null; // Skip if place already exists
+      }
+
       const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=${apiKey}`;
       const placeDetailsResponse = await axios.get(placeDetailsUrl);
       const details = placeDetailsResponse.data.result;
+
+      if (!details.place_id) {
+        console.error('Details do not contain a place_id:', details);
+        return null;
+      }
 
       const editorialSummary = details.editorial_summary ? details.editorial_summary.overview : '';
 
@@ -232,10 +287,9 @@ async function fetchAndStorePlaceDetails_family() {
 
       // Map to final tags
       const finalTags = mapToTags(tags, editorialSummary);
-      console.log('Tags:', finalTags);
 
       return {
-        placeId: place.place_id,
+        placeId: details.place_id,
         placeName: details.name,
         address: details.formatted_address,
         reviewsCount: details.user_ratings_total,
@@ -264,11 +318,11 @@ async function fetchAndStorePlaceDetails_family() {
         finalTags: finalTags
       };
     }));
-
-    await PlaceDetails.insertMany(placeDetailsArray);
+    const validPlaceDetails = placeDetailsArray.filter(detail => detail !== null);
+    await PlaceDetails.insertMany(validPlaceDetails);
     console.log('Place details have been successfully fetched and stored.');
   } catch (error) {
-    console.error('Error fetching place details:', error);
+    console.error('Error fetching place family details:', error);
   }
 }
 
@@ -307,10 +361,22 @@ async function fetchAndStorePlaceDetails_nature() {
         console.error('place_id is undefined for place:', place);
         return null; // Skip places without a valid place_id
       }
+    
+     
+      const existingPlace = await PlaceDetails.findOne({ placeName: place.name });
+      if (existingPlace) {
+        console.log(`Place with name ${place.name} already exists. Skipping.`);
+        return null; // Skip if place already exists
+      }
 
       const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=${apiKey}`;
       const placeDetailsResponse = await axios.get(placeDetailsUrl);
       const details = placeDetailsResponse.data.result;
+
+      if (!details.place_id) {
+        console.error('Details do not contain a place_id:', details);
+        return null;
+      }
 
       const editorialSummary = details.editorial_summary ? details.editorial_summary.overview : '';
 
@@ -323,10 +389,9 @@ async function fetchAndStorePlaceDetails_nature() {
 
       // Map to final tags
       const finalTags = mapToTags(tags, editorialSummary);
-      console.log('Tags:', finalTags);
 
       return {
-        placeId: place.place_id,
+        placeId: details.place_id,
         placeName: details.name,
         address: details.formatted_address,
         reviewsCount: details.user_ratings_total,
@@ -355,11 +420,11 @@ async function fetchAndStorePlaceDetails_nature() {
         finalTags: finalTags
       };
     }));
-
-    await PlaceDetails.insertMany(placeDetailsArray);
+    const validPlaceDetails = placeDetailsArray.filter(detail => detail !== null); 
+    await PlaceDetails.insertMany(validPlaceDetails);
     console.log('Place details have been successfully fetched and stored.');
   } catch (error) {
-    console.error('Error fetching place details:', error);
+    console.error('Error fetching natural place details:', error);
   }
 }
 /*
@@ -379,9 +444,14 @@ fetchAndStorePlaceDetails_nature().then(() => {
   console.log('Place details nature fetched and updated.');
 }).catch(err => {
   console.error('Error in fetchAndStorePlaceDetails_nature:', err);
-});*/
-
+});
+*/
 // Define a route to fetch top 20 tourist places in Vancouver from MongoDB
+
+const uploadRoutes = require('./upload');
+app.use(uploadRoutes);
+
+
 app.get('/vancouver-places', async (req, res) => {
   try {
     const places = await PlaceDetails.find().limit(20);
@@ -457,6 +527,104 @@ app.post('/login', (req, res)=>{
       }
     })
 })
+
+app.get('/search', async (req, res) => {
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ message: 'Query parameter is required' });
+  }
+
+  try {
+    const searchResults = await PlaceDetails.find({
+      $or: [
+        { placeName: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } },
+        { tags: { $regex: query, $options: 'i' } },
+        { finalTags: { $regex: query, $options: 'i' } }
+      ]
+    });
+
+    res.json(searchResults);
+  } catch (error) {
+    console.error('Error searching places:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+app.post('/addPlace', async (req, res) => {
+  const placeData = req.body;
+  const apiKey = process.env.GOOGLE_API_KEY;
+  const embedKey = process.env.GOOGLE_EMBED_KEY;
+
+  try {
+    // Perform a text search to find the place by name
+    const textSearchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(placeData.placeName)}&key=${apiKey}`;
+    const textSearchResponse = await axios.get(textSearchUrl);
+
+    if (!textSearchResponse.data.results || textSearchResponse.data.results.length === 0) {
+      return res.status(404).json({ message: 'Place not found on Google Places.' });
+    }
+
+    const place = textSearchResponse.data.results[0]; // Use the first result
+
+    // Fetch detailed information using the place_id
+    const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=${apiKey}`;
+    const placeDetailsResponse = await axios.get(placeDetailsUrl);
+    const details = placeDetailsResponse.data.result;
+
+    if (!details.place_id) {
+      return res.status(400).json({ message: 'Invalid place details from Google Places API.' });
+    }
+     
+    const googlePhotos = details.photos ? details.photos.slice(0, 5).map(photo => `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photoreference=${photo.photo_reference}&key=${apiKey}`) : [];
+    const combinedPhotos = placeData.photos ? placeData.photos.concat(googlePhotos) : googlePhotos;
+    // Create a new place object with the fetched details
+    const newPlace = new PlaceDetails({
+      id: uuidv4(), // Generate a unique ID for the new place
+      placeId: details.place_id,
+      placeName: details.name,
+      address: details.formatted_address,
+      reviewsCount: details.user_ratings_total,
+      description: placeData.description,
+      photos: combinedPhotos,
+      location: {
+        mapUrl: `https://www.google.com/maps/embed/v1/place?key=${embedKey}&q=place_id:${details.place_id}`,
+        address: details.formatted_address,
+        phone: details.formatted_phone_number || ''
+      },
+      convenience: {
+        accessibility: placeData.convenience ? placeData.convenience.accessibility || [] : [],
+        amenities: placeData.convenience ? placeData.convenience.amenities || [] : [],
+        children: placeData.convenience ? placeData.convenience.children || [] : [],
+        pets: placeData.convenience ? placeData.convenience.pets || [] : []
+      },
+      rating: details.rating,
+      reviews: details.reviews ? details.reviews.map(review => ({
+        userName: review.author_name,
+        profileImage: review.profile_photo_url,
+        rating: review.rating,
+        reviewText: review.text,
+      })) : [],
+      openingHours: details.opening_hours ? {
+        periods: details.opening_hours.periods || [],
+        weekday_text: details.opening_hours.weekday_text || []
+      } : { periods: [], weekday_text: [] },
+      tags: details.types ? details.types.concat('popular') : ['popular'],
+      finalTags: placeData.finalTags || []
+    });
+
+    // Save the new place to the database
+    const savedPlace = await newPlace.save();
+
+    // Send back the generated ID
+    res.status(201).json({ id: savedPlace.id });
+  } catch (error) {
+    console.error('Error saving new place:', error);
+    res.status(500).json({ message: 'Failed to add place.' });
+  }
+});
 
 // Start the server
 app.listen(3001, () => {
