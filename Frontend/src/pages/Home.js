@@ -9,11 +9,15 @@ import axios from 'axios';
 
 const Home = () => {
   const [places, setPlaces] = useState([]);
-
+  const popularPlaces = places.filter(place => place.finalTags.includes('popular')).slice(0, 8);
+  const familyFriendlyPlaces = places.filter(place => place.finalTags.includes('family')).slice(0,8);
+  const naturePlaces = places.filter(place => place.finalTags.includes('nature')).slice(0,8);
+  console.log('Number of family places:', familyFriendlyPlaces.length);
+  console.log('Number of places:', places.length);
   useEffect(() => {
     const fetchTopPlaces = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/popular-places');
+        const response = await axios.get('http://localhost:3001/PlaceDetails');
         setPlaces(response.data);
       } catch (error) {
         console.error('Error fetching top places:', error);
@@ -55,12 +59,11 @@ const Home = () => {
       </div>
      
     </div>
-    {/* page section */}
+    {/*  popular page section */}
     <section className="page-section pb-0">
       <div className="container">
         <div className="row">
           <div className="col-md-8">
-            <h6 className="title-section-top font-4">Special offers</h6>
             <h2 className="title-section"><span>Popular</span> Destinations</h2>
             <div className="cws_divider mb-25 mt-5"></div>
             <p>Nullam ac dolor id nulla finibus pharetra. Sed sed placerat mauris. Pellentesque lacinia imperdiet interdum. Ut nec nulla in purus consequat lobortis. Mauris lobortis a nibh sed convallis.</p>
@@ -70,163 +73,103 @@ const Home = () => {
       </div>
       <div className="features-tours-full-width">
         <div className="features-tours-wrap clearfix">
-        
-          <div className="features-tours-item">
-           {places[0] && (
-          <div className="features-media">
-            <img
-              src={places[0].photos && places[0].photos.length > 0 ? places[0].photos[0] : '/default-image.jpg'}
-              alt={places[0].placeName}
-              style={{ width: '960px', height: '300px', objectFit: 'cover' }}
-            />
-            <div className="features-info-top">
-              <div className="info-temp font-4"><span>Rate</span>{places[0].rating}</div>
-              <p className="info-text">{places[0].description}</p>
+          {popularPlaces.map((place, index) => (
+            <div className="features-tours-item" key={index}>
+              <div className="features-media">
+                <img
+                  src={place.photos && place.photos.length > 0 ? place.photos[0] : '/default-image.jpg'}
+                  alt={place.placeName}
+                  style={{ width: '960px', height: '300px', objectFit: 'cover' }}
+                />
+                <div className="features-info-top">
+                  <div className="info-temp font-4"><span>Rate</span>{place.rating}</div>
+                  <p className="info-text">{place.description}</p>
+                </div>
+                <div className="features-info-bot">
+                  <h4 className="title"><span className="font-4">{place.address}</span> {place.placeName}</h4>
+                  <a href={`/PlaceDetails/${place._id}`} className="button">Details</a>
+                </div>
+              </div>
             </div>
-            <div className="features-info-bot">
-              <h4 className="title"><span className="font-4">{places[0].address}</span> {places[0].placeName}</h4>
-              <Link to={`/PlaceDetails/${places[0]._id}`} className="button">Details</Link>
-            </div>
-          </div>
-        )}
-          </div>
-          <div className="features-tours-item">
-           {places[1] && (
-          <div className="features-media">
-            <img
-              src={places[1].photos && places[1].photos.length > 0 ? places[1].photos[0] : '/default-image.jpg'}
-              alt={places[1].placeName}
-              style={{ width: '960px', height: '300px', objectFit: 'cover' }}
-            />
-            <div className="features-info-top">
-              <div className="info-temp font-4"><span>Rate</span>{places[1].rating}</div>
-              <p className="info-text">{places[1].description}</p>
-            </div>
-            <div className="features-info-bot">
-              <h4 className="title"><span className="font-4">{places[1].address}</span> {places[1].placeName}</h4>
-              <Link to={`/PlaceDetails/${places[1]._id}`} className="button">Details</Link>
-            </div>
-          </div>
-        )}
-          </div>
-          <div className="features-tours-item">
-           {places[2] && (
-          <div className="features-media">
-            <img
-              src={places[2].photos && places[2].photos.length > 0 ? places[2].photos[0] : '/default-image.jpg'}
-              alt={places[2].placeName}
-              style={{ width: '960px', height: '300px', objectFit: 'cover' }}
-            />
-            <div className="features-info-top">
-              <div className="info-temp font-4"><span>Rate</span>{places[2].rating}</div>
-              <p className="info-text">{places[2].description}</p>
-            </div>
-            <div className="features-info-bot">
-              <h4 className="title"><span className="font-4">{places[2].address}</span> {places[2].placeName}</h4>
-              <Link to={`/PlaceDetails/${places[2]._id}`} className="button">Details</Link>
-            </div>
-          </div>
-        )}
-          </div>
-          <div className="features-tours-item">
-           {places[3] && (
-          <div className="features-media">
-            <img
-              src={places[3].photos && places[3].photos.length > 0 ? places[3].photos[0] : '/default-image.jpg'}
-              alt={places[3].placeName}
-              style={{ width: '960px', height: '300px', objectFit: 'cover' }}
-            />
-            <div className="features-info-top">
-              <div className="info-temp font-4"><span>Rate</span>{places[3].rating}</div>
-              <p className="info-text">{places[3].description}</p>
-            </div>
-            <div className="features-info-bot">
-              <h4 className="title"><span className="font-4">{places[0].address}</span> {places[3].placeName}</h4>
-              <Link to={`/PlaceDetails/${places[3]._id}`} className="button">Details</Link>
-            </div>
-          </div>
-        )}
-          </div>
-          <div className="features-tours-item">
-           {places[4] && (
-          <div className="features-media">
-            <img
-              src={places[4].photos && places[4].photos.length > 0 ? places[4].photos[0] : '/default-image.jpg'}
-              alt={places[4].placeName}
-              style={{ width: '960px', height: '300px', objectFit: 'cover' }}
-            />
-            <div className="features-info-top">
-              <div className="info-temp font-4"><span>Rate</span>{places[4].rating}</div>
-              <p className="info-text">{places[4].description}</p>
-            </div>
-            <div className="features-info-bot">
-              <h4 className="title"><span className="font-4">{places[4].address}</span> {places[4].placeName}</h4>
-              <Link to={`/PlaceDetails/${places[4]._id}`} className="button">Details</Link>
-            </div>
-          </div>
-        )}
-          </div>
-          <div className="features-tours-item">
-           {places[5] && (
-          <div className="features-media">
-            <img
-              src={places[5].photos && places[5].photos.length > 0 ? places[5].photos[0] : '/default-image.jpg'}
-              alt={places[5].placeName}
-              style={{ width: '960px', height: '300px', objectFit: 'cover' }}
-            />
-            <div className="features-info-top">
-              <div className="info-temp font-4"><span>Rate</span>{places[5].rating}</div>
-              <p className="info-text">{places[5].description}</p>
-            </div>
-            <div className="features-info-bot">
-              <h4 className="title"><span className="font-4">{places[5].address}</span> {places[5].placeName}</h4>
-              <Link to={`/PlaceDetails/${places[5]._id}`} className="button">Details</Link>
-            </div>
-          </div>
-        )}
-          </div>
-          <div className="features-tours-item">
-           {places[6] && (
-          <div className="features-media">
-            <img
-              src={places[6].photos && places[6].photos.length > 0 ? places[6].photos[0] : '/default-image.jpg'}
-              alt={places[6].placeName}
-              style={{ width: '960px', height: '300px', objectFit: 'cover' }}
-            />
-            <div className="features-info-top">
-              <div className="info-temp font-4"><span>Rate</span>{places[6].rating}</div>
-              <p className="info-text">{places[6].description}</p>
-            </div>
-            <div className="features-info-bot">
-              <h4 className="title"><span className="font-4">{places[6].address}</span> {places[6].placeName}</h4>
-              <Link to={`/PlaceDetails/${places[6]._id}`} className="button">Details</Link>
-            </div>
-          </div>
-        )}
-          </div>
-          <div className="features-tours-item">
-           {places[7] && (
-          <div className="features-media">
-            <img
-              src={places[7].photos && places[7].photos.length > 0 ? places[7].photos[0] : '/default-image.jpg'}
-              alt={places[7].placeName}
-              style={{ width: '960px', height: '300px', objectFit: 'cover' }}
-            />
-            <div className="features-info-top">
-              <div className="info-temp font-4"><span>Rate</span>{places[7].rating}</div>
-              <p className="info-text">{places[7].description}</p>
-            </div>
-            <div className="features-info-bot">
-              <h4 className="title"><span className="font-4">{places[7].address}</span> {places[7].placeName}</h4>
-              <Link to={`/PlaceDetails/${places[7]._id}`} className="button">Details</Link>
-            </div>
-          </div>
-        )}
-          </div>
+          ))}
         </div>
       </div>
     </section>
-    {/* ! page section */}
+    {/* ! popular page section */}
+     {/* family page section */}
+     <section className="page-section pb-0">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8">
+            <h2 className="title-section"><span>Family-friendly</span> Destinations</h2>
+            <div className="cws_divider mb-25 mt-5"></div>
+            <p>Nullam ac dolor id nulla finibus pharetra. Sed sed placerat mauris. Pellentesque lacinia imperdiet interdum. Ut nec nulla in purus consequat lobortis. Mauris lobortis a nibh sed convallis.</p>
+          </div>
+          <div className="col-md-4"><img src="pic/promo-1.png" data-at2x="pic/promo-1@2x.png" alt="" className="mt-md-0 mt-minus-70" /></div>
+        </div>
+      </div>
+      <div className="features-tours-full-width">
+        <div className="features-tours-wrap clearfix">
+          {familyFriendlyPlaces.map((place, index) => (
+            <div className="features-tours-item" key={index}>
+              <div className="features-media">
+                <img
+                  src={place.photos && place.photos.length > 0 ? place.photos[0] : '/default-image.jpg'}
+                  alt={place.placeName}
+                  style={{ width: '960px', height: '300px', objectFit: 'cover' }}
+                />
+                <div className="features-info-top">
+                  <div className="info-temp font-4"><span>Rate</span>{place.rating}</div>
+                  <p className="info-text">{place.description}</p>
+                </div>
+                <div className="features-info-bot">
+                  <h4 className="title"><span className="font-4">{place.address}</span> {place.placeName}</h4>
+                  <a href={`/PlaceDetails/${place._id}`} className="button">Details</a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    {/* ! family page section */}
+         {/* nature page section */}
+         <section className="page-section pb-0">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8">
+            <h2 className="title-section"><span>Natural</span> Destinations</h2>
+            <div className="cws_divider mb-25 mt-5"></div>
+            <p>Nullam ac dolor id nulla finibus pharetra. Sed sed placerat mauris. Pellentesque lacinia imperdiet interdum. Ut nec nulla in purus consequat lobortis. Mauris lobortis a nibh sed convallis.</p>
+          </div>
+          <div className="col-md-4"><img src="pic/promo-1.png" data-at2x="pic/promo-1@2x.png" alt="" className="mt-md-0 mt-minus-70" /></div>
+        </div>
+      </div>
+      <div className="features-tours-full-width">
+        <div className="features-tours-wrap clearfix">
+          {naturePlaces.map((place, index) => (
+            <div className="features-tours-item" key={index}>
+              <div className="features-media">
+                <img
+                  src={place.photos && place.photos.length > 0 ? place.photos[0] : '/default-image.jpg'}
+                  alt={place.placeName}
+                  style={{ width: '960px', height: '300px', objectFit: 'cover' }}
+                />
+                <div className="features-info-top">
+                  <div className="info-temp font-4"><span>Rate</span>{place.rating}</div>
+                  <p className="info-text">{place.description}</p>
+                </div>
+                <div className="features-info-bot">
+                  <h4 className="title"><span className="font-4">{place.address}</span> {place.placeName}</h4>
+                  <a href={`/PlaceDetails/${place._id}`} className="button">Details</a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    {/* ! nature page section */}
        {/* counter section */}
        <section className="small-section">
       <div className="container">

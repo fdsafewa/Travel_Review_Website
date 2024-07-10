@@ -15,6 +15,7 @@ const placeDetailsSchema = new mongoose.Schema({
     reviewsCount: Number,
     description:String,
     photos: [String],
+    
     location: {
       mapUrl: String,
       address: String,
@@ -27,7 +28,22 @@ const placeDetailsSchema = new mongoose.Schema({
       pets: [String]
     },
     rating: Number,
-    reviews: [reviewSchema]
+    reviews: [reviewSchema],
+    openingHours: {
+      periods: [{
+        open: {
+          day: Number,
+          time: String
+        },
+        close: {
+          day: Number,
+          time: String
+        }
+      }],
+      weekday_text: [String]
+    },
+    tags: [String],
+    finalTags:[String]
   });
 
 const PlaceDetails = mongoose.model('PlaceDetails', placeDetailsSchema, 'placeDetails');

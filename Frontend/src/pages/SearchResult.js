@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import Header from '../components/Header';
-import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 
-const PlaceList = () => {
-  const [places, setPlaces] = useState([]);
+const SearchResult = () => {
+  const location = useLocation();
+  const { results } = location.state || { results: [] };
+  const [places, setPlaces] = useState(results);
   const [currentPage, setCurrentPage] = useState(1);
   const [placesPerPage] = useState(10);
-  
+
   useEffect(() => {
-    const fetchPlaces = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/placelist');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        console.log('Fetched places:', data); // Debug log
-        setPlaces(data);
-      } catch (error) {
-        console.error('Error fetching places:', error);
-      }
-    };
-
-    fetchPlaces();
-  }, []);
-
+    setPlaces(results);
+  }, [results])
 
   // Get current places
   const indexOfLastPlace = currentPage * placesPerPage;
@@ -64,28 +51,27 @@ const PlaceList = () => {
                 {currentPlaces.map((place) => (
                   <div key={place._id} className="col-md-6">
                     <div className="recom-item border">
-                   
                       <div className="recom-media">
-                        <a href={`/PlaceDetails/${place._id}`}>
+                        <Link to={`/PlaceDetails/${place._id}`}>
                           <div className="pic">
-                          <img 
+                            <img 
                               src={place.photos && place.photos.length > 0 ? place.photos[0] : 'pic/recomended/1.jpg'} 
                               alt={place.placeName} 
                               style={{ width: '770px', height: '240px', objectFit: 'cover' }}
                             />
                           </div>
-                        </a>
+                        </Link>
                         <div className="location">
                           <i className="flaticon-suntour-map"></i> {place.address}
                         </div>
                       </div>
                       <div className="recom-item-body">
-                        <a href={`/PlaceDetails/${place._id}`}>
+                        <Link to={`/PlaceDetails/${place._id}`}>
                           <h6 className="blog-title">{place.placeName}</h6>
-                        </a>
+                        </Link>
                         <div className="stars stars-4">{place.rating}</div>
                         <p className="mb-30">{place.description}</p>
-                        <a href={`/PlaceDetails/${place._id}`} className="cws-button small alt">Read More</a>
+                        <Link to={`/PlaceDetails/${place._id}`} className="cws-button small alt">Read More</Link>
                         <div className="action font-2">New</div>
                       </div>
                     </div>
@@ -139,7 +125,7 @@ const Pagination = ({ placesPerPage, totalPlaces, paginate }) => {
       <ul className="pagination">
         {pageNumbers.map(number => (
           <li key={number} className="page-item">
-           <a 
+            <a 
               onClick={(e) => {
                 e.preventDefault();
                 paginate(number);
@@ -156,4 +142,4 @@ const Pagination = ({ placesPerPage, totalPlaces, paginate }) => {
   );
 };
 
-export default PlaceList;
+export default SearchResult;

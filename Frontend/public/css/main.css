@@ -1646,6 +1646,181 @@ header .main-nav.transparent li.search:after {
     background: #ffffff;
 }
 
+.main-nav li.search-nav {
+    margin: 0;
+    position: relative;
+}
+
+.main-nav li.search-nav:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 115%;
+    height: 100%;
+    top: 0;
+    right: -15%;
+    background: #ffc107;
+    -webkit-transform: skew(-15deg);
+    -moz-transform: skew(-15deg);
+    -ms-transform: skew(-15deg);
+    -o-transform: skew(-15deg);
+    transform: skew(-15deg);
+}
+
+.main-nav li.search-nav a {
+    color: #ffffff;
+}
+
+.main-nav li.search-nav li {
+    margin-left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+}
+
+.main-nav li.search-nav li .mn-wrap,
+    .main-nav li.search-nav li .form,
+    .main-nav li.search-nav li .form-control,
+    .main-nav li.search-nav li .search-field,
+    .main-nav li.search-nav li .search-wrap,
+    .main-nav li.search-nav li .container {
+    height: 100%;
+}
+
+.main-nav li.search-nav li .mn-wrap {
+    vertical-align: middle;
+    display: inline-block;
+    width: -webkit-calc(100% - 34px);
+    width: -moz-calc(100% - 34px);
+    width: calc(100% - 34px);
+}
+
+.main-nav li.search-nav li .mn-wrap .search-wrap:before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    bottom: 5px;
+    left: 0;
+    width: 92%;
+    border-bottom: 2px solid #f0f4f7;
+}
+
+.main-nav li.search-nav .search-icon {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #ffc107;
+    font-size: 26px;
+}
+
+.main-nav li.search-nav .search-sub {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    -webkit-transform: translateX(100px);
+    -moz-transform: translateX(100px);
+    -ms-transform: translateX(100px);
+    -o-transform: translateX(100px);
+    transform: translateX(100px);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.main-nav li.search-nav .search-field {
+    font-size: 20px;
+    border: 0;
+    outline: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    padding-left: 40px;
+}
+
+.main-nav li.search-nav .close-button {
+    width: 120px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+.main-nav li.search-nav .close-button:before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: -15%;
+    -webkit-transform: skew(-15deg);
+    -moz-transform: skew(-15deg);
+    -ms-transform: skew(-15deg);
+    -o-transform: skew(-15deg);
+    transform: skew(-15deg);
+    background: #45505c;
+}
+
+.main-nav li.search-nav .close-button span {
+    color: #ffc107;
+    z-index: 1;
+    position: relative;
+    vertical-align: middle;
+    line-height: 80px;
+    margin-left: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.main-nav.open-search li.search-nav .search-sub {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
+    visibility: visible;
+}
+
+header .main-nav.transparent li.search-nav:after {
+    display: none;
+}
+
+.main-nav .mobile_nav li.search-nav:after {
+    display: none;
+}
+
+.main-nav .mobile_nav li.search-nav a {
+    color: #a9b5c1;
+}
+
+.sticky-container .main-nav li.search-nav .close-button span {
+    line-height: 80px;
+}
+
+.main-nav li.search-nav li .container {
+    background: #ffffff;
+}
+
+
 .inner-nav:after {
     content: '';
     position: absolute;
