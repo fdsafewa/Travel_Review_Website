@@ -58,7 +58,7 @@ You will need to have the following software installed on your machine:
       module.exports = bucket;
       ```
 
-6. **Run the backend**:
+6. **Run the backend and frontend**:
     ```bash
     npm start
     ```
