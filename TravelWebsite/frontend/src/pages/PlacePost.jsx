@@ -21,7 +21,7 @@ const Mock_PlacePost = {
 
 const PlacePost = () => {
 
-  return <PlaceItemPost place={Mock_PlacePost} />;
+  return <PlaceItemPost/>;
 };
 
 export default PlacePost;

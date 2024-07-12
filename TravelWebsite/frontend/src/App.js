@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Places from "./pages/Places";
 import PlacePost from "./pages/PlacePost";
 import AddPlace from "./pages/AddPlace";
+import WriteComment from "./pages/WriteComment";
 import AuthProvider from "./context/AuthContext";
 
 const App = () => {
@@ -22,8 +23,9 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/places" element={<Places />} />
-            <Route path="/places/:placeId" element={<PlacePost />} />
+            <Route path="/places/:postId" element={<PlacePost />} />
             <Route path="/addplace" element={<AddPlace />} />
+            <Route path="/places/:postId/writecomment" element={<WriteComment />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
