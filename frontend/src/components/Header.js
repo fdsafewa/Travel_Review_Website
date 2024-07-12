@@ -15,8 +15,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('user');
     setUsername('');
-    navigate('/');
-    window.location.reload();
+    navigate('/login');
   };
 
   return (
