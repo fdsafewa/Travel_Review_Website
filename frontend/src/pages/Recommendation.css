@@ -1,0 +1,84 @@
+.recom-item {
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  transition: box-shadow 0.3s ease;
+}
+
+.recom-item:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.recom-media {
+  position: relative;
+}
+
+.recom-media .pic img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.location {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.recom-item-body {
+  padding-top: 15px;
+}
+
+.blog-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.stars {
+  color: #FFD700; /* gold color for stars */
+}
+
+.recom-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: #555;
+}
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.recom-button,
+.cws-button {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px 15px;
+  background-color: #f05a22;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.recom-button:hover,
+.cws-button:hover {
+  background-color: #d04e1c;
+}
+
+.action {
+  font-size: 14px;
+  color: #fff;
+  background-color: #f05a22;
+  padding: 5px 10px;
+  border-radius: 3px;
+  float: right;
+}
+

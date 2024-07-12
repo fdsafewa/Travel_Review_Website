@@ -9,8 +9,9 @@ import Pic from './pages/Pic';
 import Review from './pages/Review';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import './App.css';
 import ResetAccount from "./pages/resetAccount";
+import Recommendation from './pages/Recommendation';
+import './App.css';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/resetAccount" element={<ResetAccount/>}/>
           <Route path="/Review" element={<Review />} />
+          <Route path="/recommendation/:user_id" element={<Recommendation />} />
         </Routes>
       </div>
     </Router>
