@@ -1,65 +1,79 @@
 const PlaceDetails = require('../models/PlaceDetails');
-const User = require('../models/userModel');
-const tf = require('@tensorflow/tfjs-node');
-const use = require('@tensorflow-models/universal-sentence-encoder');
 const vader = require('vader-sentiment');
-
-
-// async function getEmbedding(text) {
-//   const model = await use.load();
-//   const embeddings = await model.embed([text]);
-//   return embeddings.arraySync()[0];
-// }
+const meta = require('../data/meta.json'); // selected places for recommendation [1 x num_of_place*] will be merged into database for further release
+const sigma = require('../data/diagonal.json'); // sigma [1 x num_of_place*] will be merged into database for further release
+const Vt = require('../data/concept.json'); // place_to_concept matrix [rank x num_of_place*] will be merged into database for further release
+const modelData = require('../data/linear.json'); // linear regression coefficient [1 x dim_of_embedding_vector] will be merged into database for further release
 
 async function getEmbedding(text) {
   const { pipeline } = await import('@xenova/transformers');
   const model = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
   const embeddings = await model(text, { pooling: 'mean', normalize: true });
-  console.log("output userembedding before tolist", embeddings.tolist()[0].length);
+  console.log("Output user embedding before toList:", embeddings.tolist()[0].length);
   return embeddings.tolist()[0];
 }
 
-async function getAverageEmbeddings() {
-  const places = await PlaceDetails.find({});
-  return places.map(place => ({
-    place_id: place._id,
-    place_name: place.placeName,
-    average_embedding: place.new_average_embedding
-  }));
-}
-
 const getRecommendations = async (req, res) => {
-  const userInput = req.body.comment;
-  const userId = req.body.user_id; 
-  console.log("received", userInput)
-
-  if (!userInput) {
-    return res.status(400).send('Invalid user input');
-  }
+  const userId = req.body.user_id;
+  console.log("Received user_id:", userId);
 
   try {
-    const userEmbedding = await getEmbedding(userInput);
-    console.log("output userembedding", userEmbedding);
-    const sentimentScore = vader.SentimentIntensityAnalyzer.polarity_scores(userInput);
-    console.log("output score", sentimentScore);
-    
-    const places = await getAverageEmbeddings();
-    const scores = places.map(place => {
-      if (!place.average_embedding || !Array.isArray(place.average_embedding) || place.average_embedding.length !== 384) {
-        console.error(`Place ${place.place_name} has invalid average_embedding`);
-        return { place_id: place.place_id, place_name: place.place_name, score: -Infinity };
+    const userRatings = new Array(meta.length).fill(0);
+    for (let i = 0; i < meta.length; i++) {
+      const place = await PlaceDetails.findById(meta[i]._id);
+      console.log(`Traversing meta: ${meta[i]._id}`);
+      if (place) {
+        const userReview = place.reviews.filter(review => review.userId && review.userId.toString() === userId.toString()).pop();
+        if (userReview) {
+          userRatings[i] = userReview.rating;
+          console.log(`User rating found for _id ${meta[i]._id}: ${userReview.rating}`);
+        } else {
+          console.log(`No user rating found for _id ${meta[i]._id}, setting to 0`);
+        }
+      } else {
+        console.log(`No place found for _id ${meta[i]._id}, setting rating to 0`);
       }
+    }
 
-      const dotProduct = userEmbedding.reduce((sum, value, index) => sum + value * place.average_embedding[index], 0);
-      return { place_id: place.place_id, place_name: place.place_name, score: dotProduct };
+    console.log("User ratings vector:", userRatings);
+    const userVector = userRatings.map((rating, index) => {
+      const result = rating * sigma[index];
+      console.log(`User rating ${rating} * sigma[${index}] ${sigma[index]} = ${result}`);
+      return result;
+    });
+    console.log("User vector (ratings * sigma):", userVector);
+
+    const scores = Vt.map((placeVector, placeIndex) => {
+      const score = placeVector.reduce((sum, value, index) => {
+        const result = value * userVector[index];
+        console.log(`Vt[${placeIndex}][${index}] ${value} * userVector[${index}] ${userVector[index]} = ${result}`);
+        return sum + result;
+      }, 0);
+      console.log(`Calculated score for place index ${placeIndex}: ${score}`);
+      return {
+        place_id: meta[placeIndex]._id,
+        place_name: meta[placeIndex].place_name,
+        score: score
+      };
     });
 
     scores.sort((a, b) => b.score - a.score);
     const topScores = scores.slice(0, 6);
+    console.log("Top scores:", topScores);
 
-    await User.findByIdAndUpdate(userId, { recommendations: topScores });
+    // Log top scores with detailed information
+    for (const scoreObj of topScores) {
+      const place = await PlaceDetails.findById(scoreObj.place_id);
+      if (place) {
+        console.log(`Recommended Place ID: ${place._id}`);
+        console.log(`Recommended Place Name: ${place.placeName}`);
+        console.log(`Recommended Place Address: ${place.address}`);
+        console.log(`SVD Calculated Score: ${scoreObj.score}`);
+      } else {
+        console.log(`Place ID ${scoreObj.place_id} not found in PlaceDetails`);
+      }
+    }
 
-    console.log('Recommendation request processed successfully');
     res.json(topScores);
   } catch (error) {
     console.error('Error getting recommendations:', error);
@@ -70,20 +84,63 @@ const getRecommendations = async (req, res) => {
 const getRecommendationPlaces = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await User.findById(userId);
+    console.log("Received user_id:", userId);
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const userRatings = new Array(meta.length).fill(0);
+    for (let i = 0; i < meta.length; i++) {
+      const place = await PlaceDetails.findById(meta[i]._id);
+      console.log(`Traversing meta: ${meta[i]._id}`);
+      if (place) {
+        const userReview = place.reviews.filter(review => review.userId && review.userId.toString() === userId.toString()).pop();
+        if (userReview) {
+          userRatings[i] = userReview.rating;
+          console.log(`User rating found for _id ${meta[i]._id}: ${userReview.rating}`);
+        } else {
+          console.log(`No user rating found for _id ${meta[i]._id}, setting to 0`);
+        }
+      } else {
+        console.log(`No place found for _id ${meta[i]._id}, setting rating to 0`);
+      }
     }
 
-    // Get the place IDs from user recommendations
-    const placeIds = user.recommendations.map(rec => rec.place_id);
-    console.log(placeIds)
-    
-    // Fetch the recommended places from the database
+    console.log("User ratings vector:", userRatings);
+
+    const userVector = userRatings.map((rating, index) => {
+      const result = rating * sigma[index];
+      console.log(`User rating ${rating} * sigma[${index}] ${sigma[index]} = ${result}`);
+      return result;
+    });
+
+    console.log("User vector (ratings * sigma):", userVector);
+
+    console.log("userVector shape:", userVector.length);
+    console.log("sigma shape:", sigma.length);
+    const scores = Vt.map((placeVector, placeIndex) => {
+      console.log(`Vt[${placeIndex}] shape:`, placeVector.length);
+      const score = placeVector.reduce((sum, value, index) => {
+        const result = value * userVector[index];
+        console.log(`Vt[${placeIndex}][${index}] ${value} * userVector[${index}] ${userVector[index]} = ${result}`);
+        return sum + result;
+      }, 0);
+      console.log(`Calculated score for place index ${placeIndex}: ${score}`);
+      return {
+        place_id: meta[placeIndex]._id,
+        place_name: meta[placeIndex].place_name,
+        score: score
+      };
+    });
+
+    scores.sort((a, b) => b.score - a.score);
+    console.log("Sorted scores:", scores);
+
+    const topScores = scores.slice(0, 6);
+    console.log("Top scores:", topScores);
+
+    const placeIds = topScores.map(score => score.place_id);
+    console.log("Top place IDs:", placeIds);
+
     const recommendedPlaces = await PlaceDetails.find({ _id: { $in: placeIds } });
 
-    // Sort the recommended places according to the order of placeIds
     const placeIdToPlaceMap = recommendedPlaces.reduce((map, place) => {
       map[place._id.toString()] = place;
       return map;
@@ -93,12 +150,46 @@ const getRecommendationPlaces = async (req, res) => {
 
     res.json(sortedRecommendedPlaces);
   } catch (error) {
+    console.error('Error fetching recommended places:', error);
     res.status(500).json({ message: error.message });
   }
-    }
+};
+
+const coefficients = modelData.coef_;
+const intercept = modelData.intercept_;
+
+function predictRating(features) {
+  let score = intercept;
+  for (let i = 0; i < features.length; i++) {
+    score += coefficients[i] * features[i];
+  }
+  return score;
+}
+
+const predictRatingHandler = async (req, res) => {
+  const { comment, user_id } = req.body;
+  console.log("Received POST /recommendation/predict-rating with user_id:", user_id);
+  console.log("Received comment:", comment);
+
+  if (!comment) {
+    console.log("Invalid comment received.");
+    return res.status(400).send('Invalid comment');
+  }
+
+  try {
+    const features = await getEmbedding(comment);
+    console.log("Features for rating prediction:", features);
+    const rating = predictRating(features);
+    console.log("Predicted rating:", rating);
+    res.json({ rating });
+  } catch (error) {
+    console.error('Error getting embedding:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
 
 module.exports = {
   getRecommendations,
   getRecommendationPlaces,
-
+  predictRatingHandler
 };
