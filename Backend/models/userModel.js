@@ -1,6 +1,7 @@
 const { db2 } = require('../database/database');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const meta = require('../data/meta.json');
 
 const UserSchema = new Schema({
     name: {
@@ -26,6 +27,10 @@ const UserSchema = new Schema({
         ref: 'Post'
     }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    ratings: {
+        type: [Number],
+        default: () => Array(meta.length).fill(0)
+    },
     recommendations: [{
         place_id: mongoose.Schema.Types.ObjectId,
         place_name: String,
