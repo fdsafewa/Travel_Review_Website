@@ -38,29 +38,30 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Route to add a review with rating
 router.post('/:id/reviews', verifyToken, async (req, res) => {
   const { id } = req.params;
-  const { userId, userName, reviewText } = req.body;
-  console
+  const { userId, userName, reviewText, rating } = req.body;
 
   const newReview = {
     userId: userId,
     userName: userName,
     reviewText: reviewText,
+    rating: rating
   };
 
-  console.log("received", newReview)
+  console.log("received", newReview);
 
   try {
     const place = await PlaceDetails.findById(id);
-    console.log('Received palce:', place.placeId);
+    console.log('Received place:', place.placeId);
     if (!place) {
       return res.status(404).json({ message: 'Place not found' });
     }
     place.reviews.push(newReview);
     await place.save();
     res.status(201).json(newReview);
-    console.log('success' );
+    console.log('success');
   } catch (error) {
     console.error('Error adding review:', error);
     res.status(500).json({ message: error.message });
