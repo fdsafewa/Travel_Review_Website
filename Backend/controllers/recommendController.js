@@ -1,4 +1,7 @@
 const PlaceDetails = require('../models/PlaceDetails');
+// const User = require('../models/userModel');
+// const tf = require('@tensorflow/tfjs-node');
+// const use = require('@tensorflow-models/universal-sentence-encoder');
 const vader = require('vader-sentiment');
 const meta = require('../data/meta.json'); // selected places for recommendation [1 x num_of_place*] will be merged into database for further release
 const sigma = require('../data/diagonal.json'); // sigma [1 x num_of_place*] will be merged into database for further release
