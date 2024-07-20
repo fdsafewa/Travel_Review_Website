@@ -55,17 +55,35 @@ const WriteReview = () => {
       return;
     }
 
+    let rating = 0;
+    try {
+      const predictionResponse = await fetch('/recommendation/predict-rating', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ comment: reviewText })
+      });
+
+      if (!predictionResponse.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const predictionData = await predictionResponse.json();
+      rating = predictionData.rating;
+      console.log('Predicted Rating:', rating);
+    } catch (error) {
+      console.error('Error predicting rating:', error);
+    }
+
     const newReview = {
       userId: user.userId,
       userName: user.userName,
-      reviewText
+      reviewText,
+      rating
     };
-    console.log('send',newReview)
-
-    const data = {
-      comment: reviewText,
-      user_id: user.userId
-    };
+    console.log('send', newReview);
 
     try {
       const response = await fetch(`/PlaceDetails/${id}/reviews`, {
@@ -87,33 +105,7 @@ const WriteReview = () => {
     } catch (error) {
       console.error('Error submitting review:', error);
     }
-
-    try {
-      const response = await fetch('/recommendation/recommend', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const result = await response.json();
-      setRecommendations(result);
-      setReviewText('');
-      alert('Recommendations retrieved successfully!');
-    } catch (error) {
-      console.error('Error getting recommendations:', error);
-    }
-
-    
-
   };
-
-  
-
 
   if (!placeDetails) {
     return <div>Loading...</div>;
