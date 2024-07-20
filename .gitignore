@@ -1,2 +1,13 @@
-.DS_Store
-googleCloudStorage.js
+
+/Frontend/node_modules/
+
+/Frontend/.env
+
+
+/Backend/node_modules/
+
+
+/Backend/.env
+/Backend/google-cloud-sdk/
+/Backend/googleCloudStorage.js
+/Backend/config

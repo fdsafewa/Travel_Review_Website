@@ -1,0 +1,155 @@
+.place-item-post {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.place-item-post__content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 1000px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.place-item-post__left {
+  flex: 3;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.place-item-post__image img {
+  width: 100%;
+  height: auto;
+  max-height: 400px; /* Adjust this value as needed */
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.place-item-post__info {
+  margin-top: 20px;
+}
+
+.place-item-post__info h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+.place-item-post__info p {
+  margin: 0 0 20px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.place-item-post__actions {
+  margin-top: 20px;
+}
+
+.place-item-post__actions div {
+  margin-bottom: 10px;
+  color: #888;
+  font-size: 14px;
+}
+
+.place-item-post__actions .MuiFab-root {
+  margin-right: 10px;
+}
+
+.place-item-post__map {
+  margin-top: 20px;
+}
+
+.place-item-post__sidebar {
+  flex: 2;
+  padding: 20px;
+  background-color: #fafafa;
+}
+
+.place-item-post__comments {
+  margin-bottom: 20px;
+}
+
+.place-item-post__comments h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.comment-user {
+  font-weight: bold;
+  color: #333;
+  margin-right: 10px;
+}
+
+.comment-rating {
+  display: flex;
+  align-items: center;
+}
+
+.comment-star {
+  color: #ff9800;
+}
+
+.comment-content {
+  color: #666;
+}
+
+.profile-info-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+
+.profile-info {
+  margin-top: 20px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.profile-info h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.profile-info p {
+  margin: 0;
+  color: #666;
+}
+
+.placeholder-text {
+  color: #a9a9a9; /* Light gray color similar to placeholder */
+  font-size: 14px; /* Size similar to placeholder */
+  margin-top: 10px;
+}
+
+
+
+
+  
