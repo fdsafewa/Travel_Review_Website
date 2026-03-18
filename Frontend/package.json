@@ -49,5 +49,8 @@
   "devDependencies": {
     "tailwindcss": "^3.4.4"
   },
+  "overrides": {
+    "nth-check": "^2.0.1"
+  },
   "proxy": "http://localhost:3001"
 }
