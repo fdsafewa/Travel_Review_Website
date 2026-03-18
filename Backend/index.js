@@ -43,7 +43,7 @@ async function removeDuplicatePlaceNames() {
 
 
 // MongoDB connection string with the database name specified
-const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://vicky:ZWI5s1lm6fcox8UH@cluster0.moyyczg.mongodb.net/TravelReview?retryWrites=true&w=majority';
+const mongoURI = process.env.MONGODB_URI;
 const mapToTags = (tags, description) => {
   const tagMapping = {
     nature: ['park', 'natural_feature', 'lagoon', 'wildlife', 'beach'],

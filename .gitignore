@@ -1,2 +1,4 @@
 .DS_Store
-googleCloudStorage.js
+node_modules/
+.env
+Backend/config/
